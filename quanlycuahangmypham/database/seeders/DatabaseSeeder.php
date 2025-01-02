@@ -2,28 +2,26 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
-class KhachhangSeeder extends Seeder
+class DatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seed the application's database.
      */
     public function run(): void
     {
-        $faker = \Faker\Factory::create('vi_VN'); // Sử dụng ngôn ngữ tiếng Việt
-
-        for ($i = 0; $i < 10; $i++) {
-            DB::table('khachhang')->insert([
-                'makhachhang' => strtoupper(Str::random(6)), // Tạo mã khách hàng ngẫu nhiên, ví dụ: 6 ký tự
-                'hotenkh'      => $faker->name,
-                'diachi'       => $faker->address,
-                'sodienthoai'  => $faker->unique()->phoneNumber,
-                'created_at'   => now(),
-                'updated_at'   => now(),
-            ]);
-        }
+        $this->call([
+            KhachhangSeeder::class,
+            NhanvienSeeder::class,
+            TheTichDiemSeeder::class,
+            HangSeeder::class,
+            SanPhamSeeder::class,
+            NhapHangSeeder::class,
+            HoaDonSeeder::class,
+            ChiTietHoaDonSeeder::class,
+        ]);
     }
 }
