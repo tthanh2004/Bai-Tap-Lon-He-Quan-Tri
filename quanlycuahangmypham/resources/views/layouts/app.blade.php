@@ -218,7 +218,7 @@
     @unless (Request::is('/'))
         <!-- Sidebar -->
         <aside class="app-sidebar bg-body-secondary shadow collapsed" id="sidebar">
-            <!-- Sidebar Content -->
+    <!-- Sidebar Content -->
             <div class="sidebar-brand">
                 <a href="{{ url('/dashboard') }}" class="text-decoration-none text-dark d-flex align-items-center">
                     <i class="fas fa-home me-2"></i> <span>MyApp</span>
@@ -226,17 +226,123 @@
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav flex-column">
-                    <!-- Menu Items -->
+                    <!-- Profile Link -->
                     <li class="nav-item">
                         <a href="{{ route('profile.edit') }}" class="nav-link {{ request()->is('profile') ? 'active' : '' }}">
                             <i class="fas fa-user me-2"></i> <span>Profile</span>
                         </a>
                     </li>
-                    <!-- Thêm các menu item khác tương tự -->
+
+                    <!-- Quản lí nhân viên -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#nhanVienMenu" role="button" aria-expanded="false" aria-controls="nhanVienMenu">
+                            <span><i class="fas fa-users me-2"></i>Quản lí nhân viên</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="nhanVienMenu">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a href="{{ route('nhanvien.index') }}" class="nav-link {{ request()->is('nhanvien') ? 'active' : '' }}">
+                                        <span>Danh sách nhân viên</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('nhanvien.create') }}" class="nav-link {{ request()->is('nhanvien/create') ? 'active' : '' }}">
+                                        <span>Thêm nhân viên</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Quản lí khách hàng -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#khachHangMenu" role="button" aria-expanded="false" aria-controls="khachHangMenu">
+                            <span><i class="fas fa-handshake me-2"></i>Quản lí khách hàng</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="khachHangMenu">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span>Danh sách khách hàng</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span>Thêm khách hàng</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Quản lí sản phẩm -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#sanPhamMenu" role="button" aria-expanded="false" aria-controls="sanPhamMenu">
+                            <span><i class="fas fa-boxes me-2"></i>Quản lí sản phẩm</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="sanPhamMenu">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span>Danh sách sản phẩm</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span>Thêm sản phẩm</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Quản lí hóa đơn -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#hoaDonMenu" role="button" aria-expanded="false" aria-controls="hoaDonMenu">
+                            <span><i class="fas fa-receipt me-2"></i>Quản lí hóa đơn</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="hoaDonMenu">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span>Danh sách hóa đơn</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span>Thêm hóa đơn</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Thống kê -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#thongKeMenu" role="button" aria-expanded="false" aria-controls="thongKeMenu">
+                            <span><i class="fas fa-chart-line me-2"></i>Thống kê</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="thongKeMenu">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span>Thống kê doanh thu</span>
+                                    </a>
+                                </li>
+                                <!-- Add more statistical items here -->
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Add more main menu items similarly -->
                 </ul>
             </div>
         </aside>
-
         <!-- Overlay for Small Screens -->
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
