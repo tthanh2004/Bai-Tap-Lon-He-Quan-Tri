@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HangController;
 use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\TheTichDiemController;
@@ -19,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('khachhang', KhachHangController::class);
     Route::resource('nhanvien', NhanVienController::class);
     Route::resource('thetichdiem', TheTichDiemController::class);
+    Route::resource('hang', HangController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

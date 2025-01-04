@@ -294,6 +294,16 @@
                         <div class="collapse" id="sanPhamMenu">
                             <ul class="nav flex-column ms-3">
                                 <li class="nav-item">
+                                    <a href="{{ route('hang.index') }}" class="nav-link {{ request() -> is('hang') ? 'active' : '' }}">
+                                        <span>Danh sách hãng sản phẩm</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('hang.create') }}" class="nav-link {{ request() -> is('hang/create') ? 'active' : '' }}">
+                                        <span>Thêm hãng sản phẩm</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <span>Danh sách sản phẩm</span>
                                     </a>
