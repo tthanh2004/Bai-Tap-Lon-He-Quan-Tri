@@ -273,6 +273,14 @@
                                         <span>Thêm khách hàng</span>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a  href="{{ route('thetichdiem.index') }}" class="nav-link {{ request()->is('thetichdiem') ? 'active' : '' }}">
+                                        <span>Thẻ tích điểm</span>
+                                    </a>
+                                    <a href="{{ route('thetichdiem.create') }}" class="nav-link {{ request()->is('thetichdiem/create') ? 'active' : '' }}">
+                                        <span>Thêm thẻ</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>

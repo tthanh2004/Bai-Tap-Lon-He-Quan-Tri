@@ -20,4 +20,9 @@ class KhachHang extends Model
         'diachi',
         'sodienthoai',
     ];
+
+    public function theTichDiems()
+    {
+        return $this->hasMany(Thetichdiem::class, 'idkhachhang', 'makhachhang');
+    }
 }

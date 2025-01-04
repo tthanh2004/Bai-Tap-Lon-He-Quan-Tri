@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Thêm Nhân Viên Mới</h1>
+    <h1 class="mb-4">Thêm Khách Hàng Mới</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -19,7 +19,7 @@
         @csrf
 
         <div class="mb-3">
-            <label for="makhachhang" class="form-label">Mã Nhân Viên</label>
+            <label for="makhachhang" class="form-label">Mã Khách Hàng</label>
             <input type="text" class="form-control" id="makhachhang" name="makhachhang" value="{{ old('makhachhang') }}" required>
         </div>
 
