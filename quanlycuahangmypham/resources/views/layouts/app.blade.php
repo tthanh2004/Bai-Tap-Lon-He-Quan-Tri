@@ -264,12 +264,12 @@
                         <div class="collapse" id="khachHangMenu">
                             <ul class="nav flex-column ms-3">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('khachhang.index') }}" class="nav-link {{ request()->is('khachhang') ? 'active' : '' }}">
                                         <span>Danh sách khách hàng</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('khachhang.create') }}" class="nav-link {{ request()->is('khachhang/create') ? 'active' : '' }}">
                                         <span>Thêm khách hàng</span>
                                     </a>
                                 </li>
