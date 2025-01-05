@@ -304,12 +304,12 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('sanpham.index') }}" class="nav-link {{ request() -> is('sanpham') ? 'active' : '' }}">
                                         <span>Danh sách sản phẩm</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('sanpham.create') }}" class="nav-link {{ request() -> is('sanpham/create') ? 'active' : '' }}">
                                         <span>Thêm sản phẩm</span>
                                     </a>
                                 </li>

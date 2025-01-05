@@ -5,6 +5,7 @@ use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\TheTichDiemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SanPhamController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('nhanvien', NhanVienController::class);
     Route::resource('thetichdiem', TheTichDiemController::class);
     Route::resource('hang', HangController::class);
+    Route::resource('sanpham', SanPhamController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
