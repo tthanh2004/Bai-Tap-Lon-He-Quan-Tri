@@ -22,4 +22,9 @@ class NhanVien extends Model
         'diachi',
         'sodienthoai',
     ];
+
+    public function hoadons()
+    {
+        return $this->hasMany(HoaDon::class, 'idnhanvien', 'manhanvien');
+    }
 }

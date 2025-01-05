@@ -25,4 +25,9 @@ class KhachHang extends Model
     {
         return $this->hasMany(Thetichdiem::class, 'idkhachhang', 'makhachhang');
     }
+
+    public function hoadons()
+    {
+        return $this->hasMany(HoaDon::class, 'idkhachhang', 'makhachhang');
+    }
 }

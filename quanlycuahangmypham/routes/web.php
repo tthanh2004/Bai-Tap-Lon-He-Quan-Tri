@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NhapHangController;
+use App\Http\Controllers\ChiTietHoaDonController;
+use App\Http\Controllers\HoaDonController;
 use App\Http\Controllers\HangController;
 use App\Http\Controllers\KhachHangController;
 use App\Http\Controllers\NhanVienController;
@@ -25,6 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('thetichdiem', TheTichDiemController::class);
     Route::resource('hang', HangController::class);
     Route::resource('sanpham', SanPhamController::class);
+    Route::resource('nhaphang', NhapHangController::class);
+    Route::resource('hoadon', HoaDonController::class);
+    Route::resource('chitiethoadon', ChiTietHoaDonController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

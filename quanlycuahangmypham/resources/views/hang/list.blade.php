@@ -13,13 +13,13 @@
     <!-- Form Tìm Kiếm -->
     <form action="{{ route('hang.index') }}" method="GET" class="mb-3">
         <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Tìm kiếm khách hàng..." value="{{ request('search') }}">
+            <input type="text" name="search" class="form-control" placeholder="Tìm kiếm hãng..." value="{{ request('search') }}">
             <button class="btn btn-primary" type="submit">Tìm</button>
         </div>
     </form>
 
 
-    <a href="{{ route('hang.create') }}" class="btn btn-success mb-3">Thêm Khách Hàng Mới</a>
+    <a href="{{ route('hang.create') }}" class="btn btn-success mb-3">Thêm Hãng Mới</a>
 
     <table class="table table-bordered">
         <thead>

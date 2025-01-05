@@ -356,6 +356,16 @@
                                         <span>Thêm sản phẩm</span>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('nhaphang.index') }}" class="nav-link {{ request() -> is('nhaphang') ? 'active' : '' }}">
+                                        <span>Danh sách hàng đã nhập</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('nhaphang.create') }}" class="nav-link {{ request() -> is('nhaphang/create') ? 'active' : '' }}">
+                                        <span>Thêm hàng nhập</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -369,13 +379,18 @@
                         <div class="collapse" id="hoaDonMenu">
                             <ul class="nav flex-column ms-3">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('hoadon.index') }}" class="nav-link {{ request() -> is('hoadon') ? 'active' : '' }}">
                                         <span>Danh sách hóa đơn</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('hoadon.create') }}" class="nav-link {{ request() -> is('hoadon/create') ? 'active' : '' }}">
                                         <span>Thêm hóa đơn</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('chitiethoadon.index') }}" class="nav-link {{ request() -> is('chitiethoadon') ? 'active' : '' }}">
+                                        <span>Danh sách hóa đơn chi tiết</span>
                                     </a>
                                 </li>
                             </ul>
