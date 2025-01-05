@@ -23,18 +23,21 @@ class HoaDon extends Model
         'tongtien',
     ];
 
+    // Quan hệ với KhachHang
     public function khachhang()
     {
         return $this->belongsTo(KhachHang::class, 'idkhachhang', 'makhachhang');
     }
 
+    // Quan hệ với NhanVien
     public function nhanvien()
     {
         return $this->belongsTo(NhanVien::class, 'idnhanvien', 'manhanvien');
     }
 
-    public function chitiethoadons()
+    // Quan hệ với ChiTietHoadon
+    public function chitiethoadon()
     {
-        return $this->hasMany(ChiTietHoaDon::class, 'idhoadon', 'mahoadon');
+        return $this->hasMany(ChiTietHoadon::class, 'idhoadon', 'mahoadon');
     }
 }

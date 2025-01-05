@@ -24,8 +24,17 @@ class SanPham extends Model
         'anhsanpham',
     ];
 
+    // Quan hệ với Hang
     public function hang()
     {
         return $this->belongsTo(Hang::class, 'idhang', 'mahang');
+    }
+
+    // Accessor để lấy URL hình ảnh sản phẩm
+    public function getAnhsanphamUrlAttribute()
+    {
+        return $this->anhsanpham && $this->anhsanpham !== 'default.jpg'
+            ? asset('uploads/sanpham/' . $this->anhsanpham)
+            : asset('uploads/sanpham/default.jpg');
     }
 }

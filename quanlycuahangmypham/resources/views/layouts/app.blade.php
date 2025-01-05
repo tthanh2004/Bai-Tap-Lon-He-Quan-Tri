@@ -16,6 +16,12 @@
     <!-- Custom CSS -->
     <style>
         /* Reset and Base Styles */
+        .badge {
+            width: 20px;
+            height: 20px;
+            font-size: 0.75rem;
+            padding: 0;
+        }
         body {
             display: flex;
             min-height: 100vh;
@@ -156,6 +162,26 @@
             width: 100%;
         }
 
+        /* Adjustments for Navbar Nav */
+        .navbar-nav .nav-item .nav-link {
+            display: flex;
+            align-items: center;
+            position: relative; /* Để badge được đặt đúng vị trí */
+        }
+
+        .navbar-nav .nav-item .nav-link i {
+            margin-right: 0.5rem; /* Khoảng cách giữa icon và text */
+        }
+
+        .navbar-nav .nav-item .badge {
+            /* Đảm bảo badge không làm lệch vị trí của icon */
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(50%, -50%);
+        }
+
+
         /* Responsive: Adjustments for Small Screens */
         @media (max-width: 992px) {
             /* Sidebar */
@@ -208,6 +234,23 @@
             .sidebar-overlay.show {
                 display: block;
             }
+
+            /* Điều chỉnh padding cho các mục trong navbar */
+            .navbar-nav .nav-item .nav-link {
+                padding-right: 1rem;
+                padding-left: 0.5rem;
+            }
+
+            /* Điều chỉnh kích thước icon trên màn hình nhỏ */
+            .navbar-nav .nav-item .nav-link i {
+                margin-right: 0.3rem;
+            }
+
+            /* Điều chỉnh kích thước badge trên màn hình nhỏ */
+            .navbar-nav .nav-item .badge {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.4rem;
+            }
         }
     </style>
 
@@ -220,7 +263,7 @@
         <aside class="app-sidebar bg-body-secondary shadow collapsed" id="sidebar">
     <!-- Sidebar Content -->
             <div class="sidebar-brand">
-                <a href="{{ url('/dashboard') }}" class="text-decoration-none text-dark d-flex align-items-center">
+                <a href="{{ url('/shop') }}" class="text-decoration-none text-dark d-flex align-items-center">
                     <i class="fas fa-home me-2"></i> <span>MyApp</span>
                 </a>
             </div>
@@ -372,15 +415,36 @@
                     <button class="btn btn-primary me-2" id="sidebarToggle" aria-label="Toggle Sidebar" aria-expanded="false">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="{{ url('/dashboard') }}">MyApp</a>
+                    <a class="navbar-brand" href="{{ url('/shop') }}">MyApp</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Navbar Content -->
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
                             @auth
+                                <!-- Biểu tượng Giỏ Hàng -->
+                                <li class="nav-item me-3 position-relative">
+                                    <a href="{{ route('shop.cart') }}" class="nav-link position-relative" aria-label="Giỏ hàng">
+                                        <i class="fas fa-shopping-cart fa-lg"></i>
+                                        @php
+                                            // Lấy giỏ hàng từ session
+                                            $cart = session()->get('cart', []);
+                                            // Tính tổng số lượng sản phẩm
+                                            $totalQuantity = 0;
+                                            foreach ($cart as $item) {
+                                                $totalQuantity += $item['quantity'];
+                                            }
+                                        @endphp
+                                        @if ($totalQuantity > 0)
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-flex justify-content-center align-items-center">
+                                                {{ $totalQuantity }}
+                                                <span class="visually-hidden">Sản phẩm trong giỏ hàng</span>
+                                            </span>
+                                        @endif
+                                    </a>
+                                </li>
                                 <!-- User Dropdown -->
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

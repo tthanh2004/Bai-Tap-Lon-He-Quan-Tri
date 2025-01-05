@@ -20,11 +20,13 @@ class ChiTietHoaDon extends Model
         'thanhtien',
     ];
 
+    // Quan hệ với Hoadon
     public function hoadon()
     {
-        return $this->belongsTo(HoaDon::class, 'idhoadon', 'mahoadon');
+        return $this->belongsTo(Hoadon::class, 'idhoadon', 'mahoadon');
     }
 
+    // Quan hệ với SanPham
     public function sanpham()
     {
         return $this->belongsTo(SanPham::class, 'idsanpham', 'masanpham');
