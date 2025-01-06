@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('thetichdiem', function (Blueprint $table) {
             $table->char('mathetichdiem');
             $table->integer('diemtichluy');
-            $table->char('idkhachhang');
+            $table->char('idkhachhang')->unique();
             $table->foreign('idkhachhang')->references('makhachhang')->on('khachhang')->onDelete('cascade');
             $table->timestamps();
 

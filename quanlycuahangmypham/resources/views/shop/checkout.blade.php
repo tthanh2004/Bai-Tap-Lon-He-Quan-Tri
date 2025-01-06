@@ -35,8 +35,7 @@
                 @endphp
                 @foreach($cart as $item)
                     @php
-                        $itemTotal = $item['sanpham']->dongia * $item['quantity'];
-                        $total += $itemTotal;
+                        $total += $item['sanpham']->dongia * $item['quantity'];
                     @endphp
                     <tr>
                         <td>
@@ -49,16 +48,12 @@
                         <td>{{ $item['sanpham']->tensanpham }}</td>
                         <td>{{ number_format($item['sanpham']->dongia, 0, ',', '.') }} VND</td>
                         <td>{{ $item['quantity'] }}</td>
-                        <td>{{ number_format($itemTotal, 0, ',', '.') }} VND</td>
+                        <td>{{ number_format($item['sanpham']->dongia * $item['quantity'], 0, ',', '.') }} VND</td>
                     </tr>
                 @endforeach
                 <tr>
                     <td colspan="4" class="text-end"><strong>Tổng Tiền:</strong></td>
                     <td><strong id="original_total">{{ number_format($total, 0, ',', '.') }} VND</strong></td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="text-end"><strong>Giảm Giá:</strong></td>
-                    <td><strong id="discount_amount_display">0 VND</strong></td>
                 </tr>
                 <tr>
                     <td colspan="4" class="text-end"><strong>Tổng Tiền Sau Khi Giảm:</strong></td>
@@ -78,12 +73,11 @@
                 <select name="idkhachhang" id="idkhachhang" class="form-control" required>
                     <option value="">-- Chọn Khách Hàng --</option>
                     @foreach($khachhangs as $khachhang)
-                        <option value="{{ $khachhang->makhachhang }}" {{ (old('idkhachhang') == $khachhang->makhachhang) ? 'selected' : '' }}>
-                            {{ $khachhang->hotenkh }}
+                        <option value="{{ $khachhang->makhachhang }}" {{ old('idkhachhang') == $khachhang->makhachhang ? 'selected' : '' }}>
+                            {{ $khachhang->makhachhang }} - {{ $khachhang->hotenkh }}
                         </option>
                     @endforeach
                 </select>
-                <small id="current_points_display">Số điểm hiện có: <span id="current_points">0</span></small>
             </div>
 
             <!-- Chọn Nhân Viên -->
@@ -92,7 +86,7 @@
                 <select name="idnhanvien" id="idnhanvien" class="form-control" required>
                     <option value="">-- Chọn Nhân Viên --</option>
                     @foreach($nhanviens as $nhanvien)
-                        <option value="{{ $nhanvien->manhanvien }}" {{ (old('idnhanvien') == $nhanvien->manhanvien) ? 'selected' : '' }}>
+                        <option value="{{ $nhanvien->manhanvien }}" {{ old('idnhanvien') == $nhanvien->manhanvien ? 'selected' : '' }}>
                             {{ $nhanvien->hoten }}
                         </option>
                     @endforeach
@@ -102,7 +96,7 @@
             <!-- Kiểm Tra Sử Dụng Thẻ Tích Điểm -->
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="use_point_card" name="use_point_card" value="1" {{ old('use_point_card') ? 'checked' : '' }}>
-                <label class="form-check-label" for="use_point_card">Sử Dụng Thẻ Tích Điểm</label>
+                <label class="form-check-label" for="use_point_card">Sử Dụng Thẻ Tích Điểm (Giảm 10%)</label>
             </div>
 
             <!-- Địa Chỉ Giao Hàng -->
@@ -149,38 +143,40 @@
 @section('scripts')
 <script>
     let customerPoints = 0; // Biến lưu trữ số điểm hiện có
-    let originalTotal = {{ $total }};
+    let originalTotal = @json($total); // Sử dụng json_encode để đảm bảo an toàn
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // Không cần kiểm tra selectedCustomer tại đây vì người dùng sẽ chọn trong form
-    });
-
-    function fetchCustomerPoints(makhachhang) {
+    document.getElementById('idkhachhang').addEventListener('change', function() {
+        var makhachhang = this.value;
         if(makhachhang) {
-            fetch('{{ url('/shop/khachhang') }}/' + makhachhang + '/points')
+            fetch('/api/khachhang/' + makhachhang + '/points')
                 .then(response => response.json())
                 .then(data => {
                     customerPoints = parseInt(data.total_points);
-                    document.getElementById('current_points').innerText = customerPoints;
+                    document.getElementById('current_points').innerText = customerPoints + ' điểm';
+
+                    // Nếu thẻ tích điểm không được sử dụng, đảm bảo tổng sau giảm là tổng ban đầu
+                    var usePointsCheckbox = document.getElementById('use_point_card');
+                    if (!usePointsCheckbox.checked) {
+                        document.getElementById('total_after_discount').innerText = new Intl.NumberFormat('vi-VN').format(originalTotal) + ' VND';
+                        document.getElementById('confirm_discount').innerText = '0 VND';
+                        document.getElementById('confirm_total_after_discount').innerText = new Intl.NumberFormat('vi-VN').format(originalTotal) + ' VND';
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching points:', error);
                     customerPoints = 0;
-                    document.getElementById('current_points').innerText = customerPoints;
+                    document.getElementById('current_points').innerText = customerPoints + ' điểm';
+                    alert('Không thể lấy số điểm hiện tại của khách hàng. Vui lòng thử lại sau.');
                 });
         } else {
             customerPoints = 0;
-            document.getElementById('current_points').innerText = customerPoints;
+            document.getElementById('current_points').innerText = customerPoints + ' điểm';
+
+            // Nếu không chọn khách hàng, đảm bảo tổng sau giảm là tổng ban đầu
+            document.getElementById('total_after_discount').innerText = new Intl.NumberFormat('vi-VN').format(originalTotal) + ' VND';
+            document.getElementById('confirm_discount').innerText = '0 VND';
+            document.getElementById('confirm_total_after_discount').innerText = new Intl.NumberFormat('vi-VN').format(originalTotal) + ' VND';
         }
-    }
-
-    document.getElementById('idkhachhang').addEventListener('change', function() {
-        var makhachhang = this.value;
-        fetchCustomerPoints(makhachhang);
-
-        // Reset discount khi chọn khách hàng mới
-        document.getElementById('use_point_card').checked = false;
-        updateTotals(originalTotal, 0, originalTotal);
     });
 
     document.getElementById('use_point_card').addEventListener('change', function() {
@@ -199,18 +195,12 @@
         }
 
         // Cập nhật tổng tiền sau khi giảm
-        updateTotals(originalTotal, discount, totalAfterDiscount);
-    });
-
-    function updateTotals(originalTotal, discount, totalAfterDiscount) {
-        // Cập nhật hiển thị trên trang
-        document.getElementById('discount_amount_display').innerText = new Intl.NumberFormat('vi-VN').format(discount) + ' VND';
         document.getElementById('total_after_discount').innerText = new Intl.NumberFormat('vi-VN').format(totalAfterDiscount) + ' VND';
 
         // Cập nhật thông tin trong modal
         document.getElementById('confirm_total').innerText = new Intl.NumberFormat('vi-VN').format(originalTotal) + ' VND';
         document.getElementById('confirm_discount').innerText = new Intl.NumberFormat('vi-VN').format(discount) + ' VND';
         document.getElementById('confirm_total_after_discount').innerText = new Intl.NumberFormat('vi-VN').format(totalAfterDiscount) + ' VND';
-    }
+    });
 </script>
 @endsection

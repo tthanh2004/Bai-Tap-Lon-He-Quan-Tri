@@ -23,7 +23,7 @@ class KhachHang extends Model
 
     public function theTichDiems()
     {
-        return $this->hasMany(Thetichdiem::class, 'idkhachhang', 'makhachhang');
+        return $this->hasOne(Thetichdiem::class, 'idkhachhang', 'makhachhang');
     }
 
     public function hoadons()

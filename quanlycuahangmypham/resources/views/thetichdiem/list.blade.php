@@ -31,7 +31,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($thetichdiems as $thetichdiem)
+           @forelse($thetichdiems as $thetichdiem)
                 <tr>
                     <td>{{ $thetichdiem->mathetichdiem }}</td>
                     <td>{{ $thetichdiem->diemtichluy }}</td>
@@ -39,7 +39,7 @@
                     <td>{{ $thetichdiem->created_at->format('d/m/Y') }}</td>
                     <td>
                         <a href="{{ route('thetichdiem.show', $thetichdiem->mathetichdiem) }}" class="btn btn-info btn-sm">Xem</a>
-                        <a href="{{ route('thetichdiem.edit', $thetichdiem->mathetichdiem) }}" class="btn btn-warning btn-sm">Sửa</a>
+                         <a href="{{ route('thetichdiem.edit', $thetichdiem->mathetichdiem) }}" class="btn btn-warning btn-sm">Sửa</a>
                         <form action="{{ route('thetichdiem.destroy', $thetichdiem->mathetichdiem) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')

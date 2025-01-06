@@ -100,12 +100,8 @@ class ShopController extends Controller
     /**
      * Hiển thị trang thanh toán.
      */
-    /**
-     * Hiển thị trang thanh toán.
-     */
     public function checkout()
     {
-        // Lấy giỏ hàng từ session
         $cart = Session::get('cart', []);
 
         if (empty($cart)) {
@@ -113,8 +109,8 @@ class ShopController extends Controller
         }
 
         // Lấy danh sách khách hàng và nhân viên
-        $khachhangs = KhachHang::all();
-        $nhanviens = NhanVien::all();
+        $khachhangs = \App\Models\KhachHang::all();
+        $nhanviens = \App\Models\NhanVien::all();
 
         // Tính tổng tiền
         $total = 0;
@@ -122,14 +118,12 @@ class ShopController extends Controller
             $total += $item['sanpham']->dongia * $item['quantity'];
         }
 
-        // Gán giá trị mặc định cho selectedCustomerId và initialPoints
-        $selectedCustomerId = null;
-        $initialPoints = 0;
-
-        // Chuyển dữ liệu sang view checkout
-        return view('shop.checkout', compact('cart', 'khachhangs', 'nhanviens', 'total', 'selectedCustomerId', 'initialPoints'));
+        return view('shop.checkout', compact('cart', 'khachhangs', 'nhanviens', 'total'));
     }
 
+    /**
+     * Xử lý thanh toán.
+     */
     public function processCheckout(Request $request)
     {
         // Xác thực thông tin thanh toán
@@ -243,7 +237,6 @@ class ShopController extends Controller
     }
 
 
-
     protected function deductPoints($khachhang, $pointsUsed)
     {
         // Lấy các thẻ tích điểm của khách hàng, sắp xếp theo ngày tạo (cũ trước)
@@ -273,8 +266,12 @@ class ShopController extends Controller
      */
     public function showInvoice($mahoadon)
     {
-        // Lấy hóa đơn cùng với chi tiết hóa đơn và thông tin sản phẩm, khách hàng, nhân viên
-        $hoadon = HoaDon::with(['chitiethoadon.sanpham', 'khachhang', 'nhanvien'])->where('mahoadon', $mahoadon)->firstOrFail();
+        // Lấy hóa đơn cùng với chi tiết hóa đơn, thông tin sản phẩm, khách hàng, nhân viên và thẻ tích điểm
+        $hoadon = HoaDon::with([
+            'chitiethoadon.sanpham',
+            'khachhang.theTichDiems',
+            'nhanvien'
+        ])->where('mahoadon', $mahoadon)->firstOrFail();
 
         return view('shop.invoice', compact('hoadon'));
     }
@@ -302,7 +299,7 @@ class ShopController extends Controller
         $khachhang = KhachHang::with('theTichDiems')->findOrFail($makhachhang);
 
         // Tính tổng điểm từ tất cả các thẻ tích điểm của khách hàng
-        $totalPoints = $khachhang->theTichDiems->sum('diemtichluy');
+        $totalPoints = $khachhang->theTichDiems->diemtichluy;
 
         return response()->json(['total_points' => $totalPoints]);
     }

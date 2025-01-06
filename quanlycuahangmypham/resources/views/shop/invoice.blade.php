@@ -13,9 +13,11 @@
         <div class="card-body">
             <p><strong>Khách Hàng:</strong> {{ $hoadon->khachhang->hotenkh }}</p>
             <p><strong>Nhân Viên:</strong> {{ $hoadon->nhanvien->hoten }}</p>
-            <p><strong>Địa Chỉ Giao Hàng:</strong> {{ $request->address ?? 'Không có thông tin' }}</p>
+            <p><strong>Địa Chỉ Giao Hàng:</strong> {{ $hoadon->address ?? 'Không có thông tin' }}</p>
             <p><strong>Ngày Lập Hóa Đơn:</strong> {{ $hoadon->ngaylaphoadon->format('d/m/Y H:i') }}</p>
             <p><strong>Sử Dụng Thẻ Tích Điểm:</strong> {{ $hoadon->sudungTTD ? 'Có' : 'Không' }}</p>
+            <p><strong>Giảm Giá:</strong> {{ $hoadon->sudungTTD ? '10%' : '0%' }}</p>
+            <p><strong>Số Điểm Tích Lũy Còn Lại:</strong> {{ number_format($hoadon->khachhang->theTichDiems->diemtichluy, 0, ',', '.') }} điểm</p>
         </div>
     </div>
 
@@ -47,6 +49,10 @@
                     <td>{{ number_format($ct->thanhtien, 0, ',', '.') }} VND</td>
                 </tr>
             @endforeach
+            <tr>
+                <td colspan="5" class="text-end"><strong>Giảm Giá (%):</strong></td>
+                <td><strong>{{ $hoadon->sudungTTD ? '10%' : '0%' }}</strong></td>
+            </tr>
             <tr>
                 <td colspan="5" class="text-end"><strong>Tổng Tiền:</strong></td>
                 <td><strong>{{ number_format($hoadon->tongtien, 0, ',', '.') }} VND</strong></td>

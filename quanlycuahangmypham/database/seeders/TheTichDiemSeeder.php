@@ -16,16 +16,28 @@ class TheTichDiemSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('vi_VN'); // Sử dụng ngôn ngữ tiếng Việt
 
+        // Lấy tất cả mã khách hàng hiện có
         $khachhangIds = DB::table('khachhang')->pluck('makhachhang')->toArray();
 
-        for ($i = 0; $i < 10; $i++) {
-            DB::table('thetichdiem')->insert([
-                'mathetichdiem' => strtoupper(Str::random(6)), // Mã thẻ ngẫu nhiên gồm 6 ký tự
-                'diemtichluy' => $faker->numberBetween(0, 0), // Điểm tích lũy từ 0 đến 1000
-                'idkhachhang'   => $faker->randomElement($khachhangIds), // Mã khách hàng ngẫu nhiên
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        // Xáo trộn mảng để chọn ngẫu nhiên mà không trùng lặp
+        shuffle($khachhangIds);
+
+        // Giới hạn số lượng thẻ tích điểm không vượt quá số khách hàng
+        $numberOfCards = min(10, count($khachhangIds));
+
+        for ($i = 0; $i < $numberOfCards; $i++) {
+            $makhachhang = $khachhangIds[$i];
+
+            // Sử dụng updateOrCreate để tránh trùng lặp
+            DB::table('thetichdiem')->updateOrInsert(
+                ['idkhachhang' => $makhachhang],
+                [
+                    'mathetichdiem' => strtoupper(Str::random(6)), // Mã thẻ ngẫu nhiên gồm 6 ký tự
+                    'diemtichluy' => $faker->numberBetween(0, 1000), // Điểm tích lũy từ 0 đến 1000
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            );
         }
     }
 }
