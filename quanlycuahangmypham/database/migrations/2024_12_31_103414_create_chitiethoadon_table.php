@@ -12,14 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('chitiethoadon', function (Blueprint $table) {
+            $table->id();
             $table->char('idhoadon');
             $table->char('idsanpham');
             $table->integer('soluongmua');
             $table->decimal('giamgia', 5, 2);
             $table->decimal('thanhtien', 18, 2);
             $table->timestamps();
-
-            $table->primary(['idhoadon', 'idsanpham']);
 
             $table->foreign('idhoadon')->references('mahoadon')->on('hoadon')->onDelete('cascade');
             $table->foreign('idsanpham')->references('masanpham')->on('sanpham')->onDelete('cascade');

@@ -23,6 +23,10 @@ class HoaDon extends Model
         'tongtien',
     ];
 
+    protected $casts = [
+        'ngaylaphoadon' => 'datetime',
+    ];
+
     // Quan hệ với KhachHang
     public function khachhang()
     {

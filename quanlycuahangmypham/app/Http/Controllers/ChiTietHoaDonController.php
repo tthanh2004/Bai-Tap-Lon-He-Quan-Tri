@@ -6,16 +6,29 @@ use App\Models\ChiTietHoaDon;
 use App\Models\HoaDon;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ChiTietHoaDonController extends Controller
 {
     /**
      * Hiển thị danh sách tất cả các chi tiết hóa đơn.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $chitiethoadons = ChiTietHoaDon::with(['hoadon', 'sanpham'])->orderBy('idhoadon', 'desc')->paginate(10);
+        $search = $request->input('search');
+
+        // Sử dụng mô hình ChiTietHoaDon với eager loading các mối quan hệ
+        $query = ChiTietHoaDon::with(['hoadon', 'sanpham']);
+
+        if ($search) {
+            // Áp dụng bộ lọc tìm kiếm nếu có
+            $query->where('idhoadon', 'like', "%$search%")
+                ->orWhere('idsanpham', 'like', "%$search%");
+        }
+
+        // Phân trang và giữ lại các tham số truy vấn
+        $chitiethoadons = $query->orderBy('created_at', 'DESC')->paginate(10)->withQueryString();
+
+        // Truyền dữ liệu vào view
         return view('chitiethoadon.list', compact('chitiethoadons'));
     }
 

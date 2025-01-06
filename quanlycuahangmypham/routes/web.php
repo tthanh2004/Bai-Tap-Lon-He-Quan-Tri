@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 Route::prefix('shop')->group(function () {
     Route::get('/', [ShopController::class, 'index'])->name('shop.index');
     Route::get('/product/{sanpham}', [ShopController::class, 'show'])->name('shop.product.show');
+    Route::get('/khachhang/{makhachhang}/points', [ShopController::class, 'getKhachHangPoints'])->name('shop.khachhang.points');
 
     // Giỏ hàng
     Route::get('/cart', [ShopController::class, 'cart'])->name('shop.cart');
@@ -48,6 +49,9 @@ Route::prefix('shop')->group(function () {
     // Checkout (thanh toán)
     Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkout')->middleware('auth');
     Route::post('/checkout', [ShopController::class, 'processCheckout'])->name('shop.checkout.process')->middleware('auth');
+
+    Route::get('/shop/invoice/{mahoadon}', [ShopController::class, 'showInvoice'])->name('shop.invoice')->middleware('auth');;
+    Route::get('/shop/invoice/{mahoadon}/pdf', [ShopController::class, 'exportInvoicePdf'])->name('shop.invoice.pdf')->middleware('auth');;
 });
 
 require __DIR__ . '/auth.php';

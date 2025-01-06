@@ -26,6 +26,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Mã Hóa Đơn</th>
                     <th>Sản Phẩm</th>
                     <th>Số Lượng Mua</th>
@@ -37,15 +38,16 @@
             <tbody>
                 @foreach($chitiethoadons as $cthd)
                     <tr>
+                        <td>{{ $cthd->id }}</td>
                         <td>{{ $cthd->idhoadon }}</td>
                         <td>{{ $cthd->sanpham->tensanpham ?? 'N/A' }}</td>
                         <td>{{ $cthd->soluongmua }}</td>
                         <td>{{ $cthd->giamgia ?? '0' }}%</td>
                         <td>{{ number_format($cthd->thanhtien, 0, ',', '.') }} VND</td>
                         <td>
-                            <a href="{{ route('chitiethoadon.show', $cthd->idhoadon) }}" class="btn btn-info btn-sm">Xem</a>
-                            <a href="{{ route('chitiethoadon.edit', $cthd->idhoadon) }}" class="btn btn-warning btn-sm">Sửa</a>
-                            <form action="{{ route('chitiethoadon.destroy', $cthd->idhoadon) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa không?');">
+                            <a href="{{ route('chitiethoadon.show', $cthd->id) }}" class="btn btn-info btn-sm">Xem</a>
+                            <a href="{{ route('chitiethoadon.edit', $cthd->id) }}" class="btn btn-warning btn-sm">Sửa</a>
+                            <form action="{{ route('chitiethoadon.destroy', $cthd->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa không?');">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger btn-sm" type="submit">Xóa</button>
@@ -57,7 +59,7 @@
         </table>
 
         <!-- Phân Trang -->
-        {!! $cthd->withQueryString()->links('pagination::bootstrap-5') !!}
+        {!! $chitiethoadons->withQueryString()->links('pagination::bootstrap-5') !!}
     @else
         <div class="alert alert-info">
             Không có dữ liệu chi tiết hóa đơn.

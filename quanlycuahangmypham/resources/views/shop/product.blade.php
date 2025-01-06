@@ -4,86 +4,66 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">{{ $sanpham->tensanpham }}</h1>
+    <h1 class="mb-4">Chi Tiết Sản Phẩm</h1>
 
-    <div class="row">
-        <div class="col-md-6">
-            @if(!empty($sanpham->anhsanpham))
-                <img src="{{ asset('uploads/sanpham/' . $sanpham->anhsanpham) }}" alt="{{ $sanpham->tensanpham }}" class="img-fluid">
-            @else
-                <img src="{{ asset('uploads/sanpham/default.jpg') }}" alt="Default Image" class="img-fluid">
-            @endif
-        </div>
-        <div class="col-md-6">
-            <h3>{{ number_format($sanpham->dongia, 0, ',', '.') }} VND</h3>
-            <p><strong>Hãng:</strong> {{ $sanpham->hang->tenhang ?? 'N/A' }}</p>
-            <p><strong>Đơn Vị Tính:</strong> {{ $sanpham->donvitinh }}</p>
-            <p><strong>Số Lượng Tồn:</strong> {{ $sanpham->soluongton }}</p>
-
-            @auth
-                @if($sanpham->soluongton > 0)
+    <div class="card mb-4">
+        <div class="row g-0">
+            <div class="col-md-4">
+                @if(!empty($sanpham->anhsanpham))
+                    <img src="{{ asset('uploads/sanpham/' . $sanpham->anhsanpham) }}" class="img-fluid rounded-start" alt="{{ $sanpham->tensanpham }}">
+                @else
+                    <img src="{{ asset('uploads/sanpham/default.jpg') }}" class="img-fluid rounded-start" alt="Default Image">
+                @endif
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $sanpham->tensanpham }}</h5>
+                    <p class="card-text"><strong>Đơn Vị Tính:</strong> {{ $sanpham->donvitinh }}</p>
+                    <p class="card-text"><strong>Đơn Giá:</strong> {{ number_format($sanpham->dongia, 0, ',', '.') }} VND</p>
+                    <p class="card-text"><strong>Số Lượng Còn Lại:</strong> {{ $sanpham->soluongton }}</p>
+                    <!-- Thêm mô tả sản phẩm nếu có -->
+                    @if(!empty($sanpham->mota))
+                        <p class="card-text"><strong>Mô Tả:</strong> {{ $sanpham->mota }}</p>
+                    @endif
+                    <!-- Thanh chọn số lượng -->
                     <form action="{{ route('shop.cart.add', $sanpham->masanpham) }}" method="POST" class="mt-3">
                         @csrf
-                        <div class="mb-3">
-                            <label for="quantity" class="form-label">Số Lượng</label>
-                            <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" max="{{ $sanpham->soluongton }}" required>
+                        <div class="input-group mb-3" style="max-width: 200px;">
+                            <button class="btn btn-outline-secondary" type="button" id="button-minus">-</button>
+                            <input type="number" name="quantity" id="quantity" class="form-control text-center" value="1" min="1" max="{{ $sanpham->soluongton }}">
+                            <button class="btn btn-outline-secondary" type="button" id="button-plus">+</button>
                         </div>
-                        <button type="submit" class="btn btn-success">Thêm Vào Giỏ Hàng</button>
+                        <button type="submit" class="btn btn-success w-100">Thêm Vào Giỏ Hàng</button>
                     </form>
-                @else
-                    <div class="alert alert-warning mt-3">
-                        Sản phẩm hiện không còn hàng.
-                    </div>
-                @endif
-            @else
-                <div class="alert alert-info mt-3">
-                    <a href="{{ route('login') }}">Đăng nhập</a> để thêm sản phẩm vào giỏ hàng.
+                    <!-- Nút Quay Lại -->
+                    <a href="{{ route('shop.index') }}" class="btn btn-secondary mt-2 w-100">Quay Lại</a>
                 </div>
-                <!-- Thêm thông báo -->
-                <div id="alertMessage" class="mt-3"></div>
-            @endauth
+            </div>
         </div>
     </div>
 </div>
-@endsection
 
-
-@section('scripts')
+<!-- Thêm script JavaScript để xử lý nút + và - -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const addToCartForm = document.getElementById('addToCartForm');
-        const alertMessage = document.getElementById('alertMessage');
+        const buttonMinus = document.getElementById('button-minus');
+        const buttonPlus = document.getElementById('button-plus');
+        const quantityInput = document.getElementById('quantity');
+        const maxQuantity = parseInt(quantityInput.getAttribute('max'));
 
-        if(addToCartForm){
-            addToCartForm.addEventListener('submit', function (e) {
-                e.preventDefault();
+        buttonMinus.addEventListener('click', function () {
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
 
-                const formData = new FormData(addToCartForm);
-                const url = addToCartForm.getAttribute('action');
-
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Accept': 'application/json',
-                    },
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.success){
-                        alertMessage.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                        // Cập nhật giỏ hàng nếu cần (ví dụ: cập nhật số lượng sản phẩm trong navbar)
-                    } else {
-                        alertMessage.innerHTML = `<div class="alert alert-danger">Có lỗi xảy ra.</div>`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alertMessage.innerHTML = `<div class="alert alert-danger">Có lỗi xảy ra.</div>`;
-                });
-            });
-        }
+        buttonPlus.addEventListener('click', function () {
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue < maxQuantity) {
+                quantityInput.value = currentValue + 1;
+            }
+        });
     });
 </script>
 @endsection

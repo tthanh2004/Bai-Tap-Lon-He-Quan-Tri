@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Chi Tiết Chi Tiết Hóa Đơn')
+@section('title', 'Chi Tiết Hóa Đơn')
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Chi Tiết Chi Tiết Hóa Đơn</h1>
+    <h1 class="mb-4">Chi Tiết Hóa Đơn</h1>
 
     <div class="card">
         <div class="card-header">
-            Mã Hóa Đơn: {{ $chitiethoadon->idhoadon }}
+            ID: {{ $chitiethoadon->id }} - Mã Hóa Đơn: {{ $chitiethoadon->idhoadon }}
         </div>
         <div class="card-body">
             <p><strong>Sản Phẩm:</strong> {{ $chitiethoadon->sanpham->tensanpham ?? 'N/A' }}</p>
