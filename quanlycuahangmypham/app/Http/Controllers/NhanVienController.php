@@ -44,7 +44,7 @@ class NhanVienController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'manhanvien'   => 'required|string|max:10|unique:nhanviens,manhanvien',
+            'manhanvien'   => 'required|string|max:10|unique:nhanvien,manhanvien',
             'hoten'        => 'required|string|max:255',
             'gioitinh'     => 'required|in:Nam,Nữ,Khác',
             'ngaysinh'     => 'required|date|before:today',
@@ -98,7 +98,7 @@ class NhanVienController extends Controller
 
         // Quy tắc xác thực
         $rules = [
-            'manhanvien'   => 'required|string|max:10|unique:nhanviens,manhanvien',
+            'manhanvien'   => 'required|string|max:10|unique:nhanvien,manhanvien',
             'hoten'        => 'required|string|max:255',
             'gioitinh'     => 'required|in:Nam,Nữ,Khác',
             'ngaysinh'     => 'required|date|before:today',

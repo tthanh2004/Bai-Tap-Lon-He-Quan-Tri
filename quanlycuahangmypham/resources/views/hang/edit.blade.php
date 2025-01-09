@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Chỉnh Sửa Thông Tin Nhân Viên</h1>
+    <h1 class="mb-4">Chỉnh Sửa Thông Tin Hãng</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -20,12 +20,12 @@
         @method('PUT')
 
         <div class="mb-3">
-            <label for="mahang" class="form-label">Mã Nhân Viên</label>
+            <label for="mahang" class="form-label">Mã Hãng</label>
             <input type="text" class="form-control" id="mahang" name="mahang" value="{{ old('mahang', $hang->mahang) }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="tenhang" class="form-label">Họ Tên</label>
+            <label for="tenhang" class="form-label">Tên Hãng</label>
             <input type="text" class="form-control" id="tenhang" name="tenhang" value="{{ old('tenhang', $hang->tenhang) }}" required>
         </div>
 

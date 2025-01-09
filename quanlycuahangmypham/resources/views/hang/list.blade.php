@@ -24,8 +24,8 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Mã KH</th>
-                <th>Họ Tên</th>
+                <th>Mã Hãng</th>
+                <th>Tên Hãng</th>
                 <th>Địa Chỉ</th>
                 <th>Hành Động</th>
             </tr>

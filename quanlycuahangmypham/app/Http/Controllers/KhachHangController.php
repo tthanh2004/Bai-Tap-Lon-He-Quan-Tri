@@ -41,7 +41,7 @@ class khachhangController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'makhachhang'   => 'required|string|max:10|unique:khachhangs,makhachhang',
+            'makhachhang'   => 'required|string|max:10|unique:khachhang,makhachhang',
             'hotenkh'        => 'required|string|max:255',
             'diachi'       => 'required|string|max:500',
             'sodienthoai'  => 'required|string|max:20|regex:/^[0-9\s\-()+]+$/',
@@ -58,7 +58,7 @@ class khachhangController extends Controller
         $khachhang = new KhachHang();
         $khachhang->makhachhang  = $request->makhachhang;
         $khachhang->hotenkh       = $request->hotenkh;
-        $khachhang->diachi      = $request->diachi;
+        $khachhang->diachi     = $request->diachi;
         $khachhang->sodienthoai = $request->sodienthoai;
 
 
@@ -91,7 +91,7 @@ class khachhangController extends Controller
 
         // Quy tắc xác thực
         $rules = [
-            'makhachhang'   => 'required|string|max:10|unique:khachhangs,makhachhang',
+            'makhachhang'   => 'required|string|max:10|unique:khachhang,makhachhang',
             'hotenkh'        => 'required|string|max:255',
             'diachi'       => 'required|string|max:500',
             'sodienthoai'  => 'required|string|max:20|regex:/^[0-9\s\-()+]+$/',

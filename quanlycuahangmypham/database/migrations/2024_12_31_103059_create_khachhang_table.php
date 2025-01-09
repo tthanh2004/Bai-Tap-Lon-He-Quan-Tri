@@ -15,7 +15,7 @@ return new class extends Migration
             $table->char('makhachhang');
             $table->string('hotenkh');
             $table->string('diachi');
-            $table->string('sodienthoai')->unique;
+            $table->string('sodienthoai')->unique();
             $table->timestamps();
 
             $table->primary('makhachhang');
